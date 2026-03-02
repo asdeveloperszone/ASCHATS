@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASChat — Chats</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ASChat" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+</head>
+<body class="chats-page">
+
+  <div class="chats-header">
+    <div class="chats-header-left">
+      <div class="chats-logo">💬</div>
+      <h2>ASChat</h2>
+    </div>
+    <div class="header-actions">
+      <button id="installAppBtn" onclick="installApp()" title="Install App" style="display:none;" class="install-pulse">
+        <i class="fa-solid fa-download"></i>
+      </button>
+      <button onclick="window.location.href='profile.html'" title="My Profile">
+        <i class="fa-solid fa-circle-user"></i>
+      </button>
+      <button onclick="showAddUser()" title="New Chat">
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      <button onclick="logoutUser()" title="Logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="my-id-banner">
+    <span>Your ID: <strong id="myIDDisplay">Loading...</strong></span>
+    <button onclick="copyID()" class="copy-btn">Copy</button>
+  </div>
+
+  <!-- New Chat Modal -->
+  <div id="addUserModal" class="modal" style="display:none;">
+    <div class="modal-box">
+      <h3>New Chat</h3>
+      <p>Enter the 9-digit ID of the person you want to message</p>
+      <input type="number" id="searchID" placeholder="123456789" maxlength="9" />
+      <p id="searchError" class="error-msg"></p>
+      <div class="modal-actions">
+        <button onclick="hideAddUser()" class="btn-cancel">Cancel</button>
+        <button onclick="searchUser()" class="btn-primary">Start Chat</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chats-list" id="chatsList">
+    <p class="no-chats">
+      <i class="fa-regular fa-comment-dots"></i>
+      No chats yet.<br/>Tap the edit icon above to start a conversation.
+    </p>
+  </div>
+
+  <script src="js/pwa.js"></script>
+  <script type="module" src="js/global-call.js"></script>
+  <script type="module" src="js/chats.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "name": "ASChat",
+  "short_name": "ASChat",
+  "description": "Simple, fast, and private messaging",
+  "start_url": "/ASCHATS/chats.html",
+  "scope": "/ASCHATS/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D0D14",
+  "theme_color": "#4F46E5",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["social", "communication"],
+  "shortcuts": [
+    {
+      "name": "Open Chats",
+      "short_name": "Chats",
+      "description": "Go to your chats",
+      "url": "/ASCHATS/chats.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

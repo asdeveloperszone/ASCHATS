@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASChat — Private Messaging</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ASChat" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+</head>
+<body class="landing-page">
+  <div class="landing-container">
+    <div class="landing-logo-wrap">💬</div>
+    <h1>ASChat</h1>
+    <p>Simple, fast, and private messaging.<br/>Chat with anyone using their unique ID.</p>
+    <a href="auth.html" class="btn-start">
+      Get Started <i class="fa-solid fa-arrow-right"></i>
+    </a>
+    <div class="landing-features">
+      <div class="landing-feat"><i class="fa-solid fa-lock"></i> End-to-End Private</div>
+      <div class="landing-feat"><i class="fa-solid fa-bolt"></i> Real-time</div>
+      <div class="landing-feat"><i class="fa-solid fa-phone"></i> Voice &amp; Video</div>
+    </div>
+  </div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "rules": {
+
+    "users": {
+      "$userID": {
+        ".read":  "auth != null",
+        ".write": "auth != null && root.child('userMap').child(auth.uid).val() === $userID"
+      }
+    },
+
+    "userMap": {
+      "$uid": {
+        ".read":  "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+
+    "messages": {
+      "$chatKey": {
+        ".read":  "auth != null && ($chatKey.beginsWith(root.child('userMap').child(auth.uid).val() + '_') || $chatKey.endsWith('_' + root.child('userMap').child(auth.uid).val()))",
+        ".write": "auth != null && ($chatKey.beginsWith(root.child('userMap').child(auth.uid).val() + '_') || $chatKey.endsWith('_' + root.child('userMap').child(auth.uid).val()))"
+      }
+    },
+
+    "calls": {
+      "$userID": {
+        ".read":  "auth != null && (root.child('userMap').child(auth.uid).val() === $userID || data.child('callerID').val() === root.child('userMap').child(auth.uid).val())",
+        ".write": "auth != null && (root.child('userMap').child(auth.uid).val() === $userID || data.child('callerID').val() === root.child('userMap').child(auth.uid).val() || newData.child('callerID').val() === root.child('userMap').child(auth.uid).val())"
+      }
+    },
+
+    "presence": {
+      "$userID": {
+        ".read":  "auth != null",
+        ".write": "auth != null && root.child('userMap').child(auth.uid).val() === $userID"
+      }
+    },
+
+    "typing": {
+      "$chatKey": {
+        ".read":  "auth != null && ($chatKey.beginsWith(root.child('userMap').child(auth.uid).val() + '_') || $chatKey.endsWith('_' + root.child('userMap').child(auth.uid).val()))",
+        ".write": "auth != null && ($chatKey.beginsWith(root.child('userMap').child(auth.uid).val() + '_') || $chatKey.endsWith('_' + root.child('userMap').child(auth.uid).val()))"
+      }
+    },
+
+    "fcmTokens": {
+      "$userID": {
+        ".read":  "auth != null && root.child('userMap').child(auth.uid).val() === $userID",
+        ".write": "auth != null && root.child('userMap').child(auth.uid).val() === $userID"
+      }
+    }
+
+  }
+}

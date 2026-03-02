@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASChat — My Profile</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ASChat" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+</head>
+<body class="profile-page">
+
+  <div class="profile-header">
+    <button class="back-btn" onclick="window.location.href='chats.html'">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <h2>My Profile</h2>
+  </div>
+
+  <div class="profile-hero">
+    <div class="profile-avatar-wrap">
+      <div id="avatarPlaceholder" class="avatar-placeholder"></div>
+      <img id="avatarImg" class="avatar-img" src="" style="display:none;" />
+      <button class="profile-edit-photo-btn" onclick="document.getElementById('photoPickerInput').click()">
+        <i class="fa-solid fa-camera"></i>
+      </button>
+      <input type="file" id="photoPickerInput" accept="image/*" style="display:none;" onchange="handlePhotoChange(event)" />
+    </div>
+    <div class="profile-name-display" id="heroName"></div>
+    <div class="profile-id-display" id="heroID"></div>
+  </div>
+
+  <div class="profile-body">
+    <div class="profile-field">
+      <label>Display Name</label>
+      <input type="text" id="nameInput" placeholder="Enter your name" />
+    </div>
+
+    <div class="profile-field">
+      <label>Your AS ID</label>
+      <div class="profile-id-row">
+        <span id="idDisplay" style="font-size:15px;color:var(--text-primary);font-weight:600;"></span>
+        <button class="profile-id-copy" onclick="copyMyID()">
+          <i class="fa-regular fa-copy"></i> Copy
+        </button>
+      </div>
+    </div>
+
+    <button class="btn-save-profile" onclick="saveProfile()">
+      <i class="fa-solid fa-check"></i> Save Changes
+    </button>
+  </div>
+
+  <script type="module" src="js/global-call.js"></script>
+  <script type="module" src="js/profile.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

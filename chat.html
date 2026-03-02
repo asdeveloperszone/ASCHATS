@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASChat</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ASChat" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+</head>
+<body class="chat-page">
+
+  <!-- Header -->
+  <div class="chat-header" id="chatHeader">
+    <button onclick="window.location.href='chats.html'" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <div id="headerProfile" style="display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;min-width:0;" onclick="openOtherProfile()">
+      <div class="chat-avatar-small" id="chatAvatar"></div>
+      <div class="chat-header-info">
+        <h3 id="chatName"></h3>
+        <span id="chatStatus" style="font-size:12px;color:var(--text-muted);">tap for info</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:2px;">
+      <button class="call-header-btn" onclick="startCall('voice')" title="Voice Call">
+        <i class="fa-solid fa-phone"></i>
+      </button>
+      <button class="call-header-btn" onclick="startCall('video')" title="Video Call">
+        <i class="fa-solid fa-video"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div class="messages-container" id="messagesContainer"></div>
+
+  <!-- Photo Viewer -->
+  <div id="photoModal" class="photo-modal" style="display:none;" onclick="closePhoto()">
+    <img id="photoModalImg" src="" />
+  </div>
+
+  <!-- Bottom Sheet -->
+  <div id="bottomSheet" class="bottom-sheet-overlay" style="display:none;" onclick="closeSheet(event)">
+    <div class="bottom-sheet">
+      <div class="reaction-picker" id="reactionPicker">
+        <span onclick="reactToMessage('❤️')">❤️</span>
+        <span onclick="reactToMessage('😂')">😂</span>
+        <span onclick="reactToMessage('😮')">😮</span>
+        <span onclick="reactToMessage('😢')">😢</span>
+        <span onclick="reactToMessage('👍')">👍</span>
+        <span onclick="reactToMessage('🔥')">🔥</span>
+      </div>
+      <div class="sheet-actions" id="sheetActions"></div>
+      <button class="sheet-cancel" onclick="closeBottomSheet()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Forward Modal -->
+  <div id="forwardModal" class="forward-modal" style="display:none;">
+    <div class="forward-box">
+      <h3><i class="fa-solid fa-share"></i> Forward to...</h3>
+      <div id="forwardContactsList"></div>
+      <button class="forward-cancel" onclick="closeForwardModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Reply Bar -->
+  <div class="reply-bar" id="replyBar">
+    <i class="fa-solid fa-reply" style="color:var(--accent-light);font-size:14px;flex-shrink:0;"></i>
+    <div class="reply-bar-text">
+      <strong id="replyBarName"></strong>
+      <span id="replyBarText"></span>
+    </div>
+    <button class="reply-bar-close" onclick="cancelReply()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <!-- OUTGOING CALL -->
+  <div id="outgoingCallScreen" class="call-screen" style="display:none;">
+    <div class="call-bg"></div>
+    <div class="call-avatar-wrap">
+      <div class="call-avatar" id="outCallAvatar"></div>
+    </div>
+    <div class="call-name" id="outCallName"></div>
+    <div class="call-status" id="outCallStatus">Calling...</div>
+    <div class="call-actions">
+      <button class="call-btn end" onclick="endCall()">
+        <i class="fa-solid fa-phone-slash"></i>
+      </button>
+    </div>
+    <video id="localVideoOut" class="local-video-preview" autoplay muted playsinline></video>
+  </div>
+
+  <!-- INCOMING CALL -->
+  <div id="incomingCallScreen" class="call-screen incoming" style="display:none;">
+    <div class="call-bg"></div>
+    <div class="call-avatar-wrap">
+      <div class="call-avatar" id="inCallAvatar"></div>
+    </div>
+    <div class="call-name" id="inCallName"></div>
+    <div class="call-type-label" id="inCallTypeLabel"></div>
+    <div class="call-status">Incoming call...</div>
+    <div class="call-actions incoming-actions">
+      <button class="call-btn decline" onclick="declineCall()">
+        <i class="fa-solid fa-phone-slash"></i>
+      </button>
+      <button class="call-btn accept" onclick="acceptCall()">
+        <i class="fa-solid fa-phone"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ACTIVE CALL -->
+  <div id="activeCallScreen" class="call-screen active-call" style="display:none;">
+    <div class="call-bg"></div>
+    <video id="remoteVideo" class="remote-video" autoplay playsinline></video>
+    <video id="localVideo" class="local-video" autoplay muted playsinline></video>
+    <div class="active-call-top">
+      <div class="call-avatar" id="activeCallAvatar"></div>
+      <div class="call-name" id="activeCallName"></div>
+      <div class="call-timer" id="callTimer">00:00</div>
+    </div>
+    <div class="call-actions active-actions">
+      <button class="call-ctrl-btn" id="muteBtn" onclick="toggleMute()">
+        <i class="fa-solid fa-microphone"></i>
+        <span>Mute</span>
+      </button>
+      <button class="call-btn end" onclick="endCall()">
+        <i class="fa-solid fa-phone-slash"></i>
+      </button>
+      <button class="call-ctrl-btn" id="speakerBtn" onclick="toggleSpeaker()">
+        <i class="fa-solid fa-volume-high"></i>
+        <span>Speaker</span>
+      </button>
+      <button class="call-ctrl-btn" id="camBtn" onclick="toggleCamera()" style="display:none;">
+        <i class="fa-solid fa-video"></i>
+        <span>Camera</span>
+      </button>
+      <button class="call-ctrl-btn" id="flipBtn" onclick="flipCamera()" style="display:none;">
+        <i class="fa-solid fa-rotate"></i>
+        <span>Flip</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Input Area -->
+  <div class="chat-input-area">
+    <button class="attach-btn" onclick="document.getElementById('photoInput').click()" title="Send photo">
+      <i class="fa-solid fa-image"></i>
+    </button>
+    <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="sendPhoto(event)" />
+    <div class="input-wrap">
+      <input type="text" id="messageInput" placeholder="Message..."
+        onkeydown="if(event.key==='Enter') sendMessage()" />
+      <div class="recording-waveform" id="recordingWaveform"></div>
+    </div>
+    <button class="voice-btn" id="voiceBtn"
+      onmousedown="startRecording(event)"
+      onmouseup="stopRecording(event)"
+      ontouchstart="startRecording(event)"
+      ontouchend="stopRecording(event)"
+      ontouchcancel="cancelRecording()"
+      onmouseleave="cancelRecording()">
+      <i class="fa-solid fa-microphone"></i>
+    </button>
+    <button onclick="sendMessage()" class="send-btn">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </div>
+
+  <audio id="ringtone" loop>
+    <source src="https://www.soundjay.com/phone/sounds/phone-calling-1.mp3" type="audio/mpeg">
+  </audio>
+  <!-- Hidden audio element for remote voice call audio -->
+  <audio id="remoteAudio" autoplay playsinline style="display:none;"></audio>
+
+  <script type="module" src="js/chat.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

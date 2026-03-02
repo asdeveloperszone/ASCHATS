@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASChat — Profile</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ASChat" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+</head>
+<body class="other-profile-page">
+
+  <div class="other-profile-header">
+    <button class="back-btn" id="backBtn">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <h2>Profile</h2>
+  </div>
+
+  <div class="other-profile-hero">
+    <div id="otherAvatarWrap">
+      <div id="otherAvatarPlaceholder" class="other-profile-avatar-placeholder"></div>
+      <img id="otherAvatarImg" class="other-profile-avatar" src="" style="display:none;" />
+    </div>
+    <div class="other-profile-name" id="otherName"></div>
+  </div>
+
+  <div class="other-profile-body">
+    <div class="other-profile-card">
+      <label>AS ID</label>
+      <div class="id-row">
+        <span class="id-value" id="otherID"></span>
+        <button class="profile-id-copy" onclick="copyOtherID()">
+          <i class="fa-regular fa-copy"></i> Copy
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/global-call.js"></script>
+  <script type="module" src="js/other-profile.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

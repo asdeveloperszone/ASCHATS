@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASChat — Sign In</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ASChat" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-logo-wrap">💬</div>
+    <h2>ASChat</h2>
+    <p class="auth-subtitle">Sign in to start messaging</p>
+
+    <div class="auth-tabs">
+      <button class="tab-btn active" id="loginTab" onclick="showLogin()">Login</button>
+      <button class="tab-btn" id="registerTab" onclick="showRegister()">Register</button>
+    </div>
+
+    <div id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email address" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <button class="btn-primary" onclick="loginUser()">Sign In</button>
+    </div>
+
+    <div id="registerForm" style="display:none;">
+      <input type="text" id="registerName" placeholder="Display name" />
+      <input type="email" id="registerEmail" placeholder="Email address" />
+      <input type="password" id="registerPassword" placeholder="Password (min 6 chars)" />
+      <button class="btn-primary" onclick="registerUser()">Create Account</button>
+    </div>
+
+    <div class="divider">or</div>
+
+    <button class="btn-google" onclick="loginWithGoogle()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"/>
+      Continue with Google
+    </button>
+
+    <p id="authError" class="error-msg"></p>
+  </div>
+  <script type="module" src="js/auth.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
